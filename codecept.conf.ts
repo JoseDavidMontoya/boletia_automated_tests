@@ -7,7 +7,7 @@ setHeadlessWhen(process.env.HEADLESS);
 setCommonPlugins();
 
 export const config: CodeceptJS.MainConfig = {
-  tests: './*_test.ts',
+  tests: './features/*.feature',  // Apunta a tus archivos .feature
   output: './output',
   helpers: {
     WebDriver: {
@@ -16,7 +16,26 @@ export const config: CodeceptJS.MainConfig = {
     }
   },
   include: {
-    I: './steps_file'
+    I: './steps_file.ts',         // Asegúrate de que la extensión sea .ts
+    loginPage: './page_objects/loginPage.ts' 
   },
-  name: 'boletia_pruebas'
-}
+  // Configuración de Cucumber:
+  gherkin: {
+    features: './features/*.feature',
+    steps: ['./step_definitions/login_steps.ts']
+  },
+  name: 'boletia_pruebas',
+  plugins: {
+    screenshotOnFail: {
+      enabled: true
+    },
+    stepByStepReport: {
+      enabled: true,
+      screenshotsForAllureReport: true
+    },
+    autoDelay: {
+      enabled: true
+    }
+
+  }
+};
